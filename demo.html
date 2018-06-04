@@ -14,69 +14,105 @@
             padding: 0;
         }
         #chart {
-            width: 7    00px;
+            width: 700px;
             height: 300px;
-            border:1px solid #000
+            /* border:1px solid #000 */
+        }
+        #chart1 {
+            width: 700px;
+            height: 300px;
+            /* border:1px solid #000 */
+        }
+        #chart2 {
+            width: 700px;
+            height: 300px;
+            /* border:1px solid #000 */
         }
     </style>
 </head>
 <body>
-    <div id="chart"></div>
-    <script>
+  <div id="chart"></div>
+  <div id="chart1"></div>
+  <div id="chart2"></div>
+  <script>
     window.onload = function () {
-        var option = {
-            color: ["#1890FF", "#2FC25B", "#FACC14", "#223273", "#8543E0", "#13C2C2", "#3436C7", "#F04864"],
-            title:{
-                text:"this is title",
-                top:4,
-                left:10,
-                textStyle:{
-                    color:"#333"
-                }
-            },
-            tooltip: {
-                trigger: 'axis'
-            },
-            legend:{
-                show:true,
-                data:["key"],
-                top: 8,
-                right:10
-            },
-            grid:{
-              top:48,
-              left:16,
-              right:16,
-              bottom:12,
-              containLabel:true
-            },
-            xAxis: {
-                type: 'category',
-                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-            },
-            yAxis: {
-                type: 'value'
-            },
-            series: [{
-                name: "key",
-                data: [820, 932, 901, 934, 1290, 1330, 1320],
-                type: 'line'
-            }]
-        };
-
-        myChart = echarts.init(document.getElementById('chart'));
-        myChart.setOption(option);
-        console.log(jc);
-        console.log(ec);
-        var bar =  ec.barChart({
-            easySet:{
-                aa:123
-            }
-        });
-        bar.legend.show = true;
-        // console.log(bar);
+      var data = [{
+          name: 'demo1',
+          key:"1",
+          value: 100
+      },{
+          name: 'demo1',
+          key:"2",
+          value: 130
+      },{
+          name: 'demo',
+          key:"1",
+          value: 110
+      },{
+          name: 'demo',
+          key:"2",
+          value: 106
+      },{
+          name: 'demo',
+          key:"3",
+          value: 109
+      },{
+          name: 'demo1',
+          key:"3",
+          value: 10
+      }]
+      var option = {
+          easySet: {
+              legend: 'name',
+              x: 'key',
+              y: 'value',
+              orderBy:'ASC'
+          },
+          title:{
+              text:"123123"
+          }
       };
+      var option1 = {
+          legend: 'name',
+          x: 'key',
+          y: 'value',
+          // direction: 'horizontal',
+          stack:true,
+          // orderBy:"DESC"
+      };
+      myChart = echarts.init(document.getElementById('chart'), null, {renderer:'svg'});
+      // ec.globalOption({
+      //     color:["#cccccc","#aaaaaa"]
+      // }, true)
+      var bar = ec.barChart(data, option1);
+      console.log(JSON.stringify(bar, null, 2));
+      myChart.setOption(bar);
+      myChart1 = echarts.init(document.getElementById('chart1'));
+      var line =  ec.lineChart(data, option1);
+      myChart1.setOption(line);
       
-    </script>
+      var pieData = [{
+          key: "name",
+          value: 123
+      },{
+          key: "name1",
+          value: 11
+      },{
+          key: "name3",
+          value: 151
+      },{
+          key: "name4",
+          value: 55
+      }];
+      var pie = ec.pieChart(pieData,{
+          legend: "key",
+          val: "value",
+          orderBy:"DESC"
+      })
+      myChart2 = echarts.init(document.getElementById('chart2'));
+      myChart2.setOption(pie);
+    };
+    
+  </script>
 </body>
 </html>
