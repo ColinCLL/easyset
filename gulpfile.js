@@ -6,7 +6,7 @@ var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var sourcemaps = require('gulp-sourcemaps');
 
-gulp.task('script', function () {
+gulp.task('js', function () {
   return gulp.src(['../JCalculator/JCalculator.js', './easyCharts.js']) // 指明源文件路径、并进行文件匹配
     .pipe(concat('./build/easyCharts.js'))
     .pipe(babel()) // babel

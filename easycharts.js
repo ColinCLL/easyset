@@ -161,7 +161,7 @@
       chartOption.xAxis[0] = chartOption.yAxis[0]
       chartOption.yAxis[0] = t
     }
-    
+
     return chartOption
   }
 
@@ -218,7 +218,7 @@
         newSeries.data.push(index[row])
       })
       newSeries.name = key
-      
+
       if (easySet.stack) {
         newSeries.stack = '总量'
         if (!newSeries.areaStyle) newSeries.areaStyle = {normal: {}}
@@ -251,7 +251,7 @@
         name: ' ',
         type: 'pie',
         radius : '55%',
-        center: ['50%', '60%'], 
+        center: ['50%', '60%'],
       }
     ]
   }
@@ -261,7 +261,7 @@
     let easySet = config.easySet
     let chartOption = config.chartOption
     let pieData = [], legendData = []
-    
+
     pieData = jc.sql({
       select: {
         col:{
@@ -279,7 +279,85 @@
     return chartOption
 
   }
-  
+
+  // k图
+  opt.kOption = {
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'shadow'
+      }
+    },
+    xAxis: [{
+      type: 'category'
+    }],
+    yAxis: [{
+      type: 'value',
+    }],
+    series: [{
+      type: 'k',
+      itemStyle: {
+        normal: {
+          color: opt.globalOption.color[0],
+          color0: opt.globalOption.color[0],
+          borderColor: opt.globalOption.color[0],
+          borderColor0: opt.globalOption.color[0]
+        }
+      },
+    }]
+  }
+  ec.kChart = (data, option) => {
+    let config = getOption(option, opt.kOption)
+    let easySet = config.easySet
+    let chartOption = config.chartOption
+    let legendData = [], xAxisData = [], series = [], optSeries = chartOption.series[0]
+
+    let legendGroup = jc.groupBy(data, easySet.legend)
+
+    // 排序的数据
+    let orderData = jc.sql({
+      select: {
+        col: {
+          key: easySet.x,
+          val: easySet.y
+        },
+      },
+      from: data,
+      groupBy: easySet.x,
+      orderBy: easySet.orderBy ? { val: easySet.orderBy } : false
+    })
+
+    orderData.map(row => {
+      let x = row["key"]
+      xAxisData.push(x)
+    })
+
+    let newSeries = jc.extend(true, {}, optSeries)
+    newSeries.data = []
+    jc.forIn(legendGroup, (key, val) => {
+      let arr = jc.keyArray(val, [easySet.y])
+      let index = jc.index(val, easySet.x)
+
+      legendData.push(key)
+      jc.map(xAxisData, row => {
+        console.log(index[row][easySet.y], row, index, easySet.y)
+        newSeries.data.push(index[row][easySet.y])
+      })
+    })
+    chartOption.series = newSeries
+    // chartOption.legend.data = legendData
+    chartOption.xAxis[0].data = xAxisData
+
+    if (easySet.direction === 'horizontal') {
+      let t
+      t = chartOption.xAxis[0]
+      chartOption.xAxis[0] = chartOption.yAxis[0]
+      chartOption.yAxis[0] = t
+    }
+
+    return chartOption
+  }
+
   // 修改图表默认样式
   jc.forIn(opt, (key, val) => {
     ec[key] = (option, deep) => {

@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <script src="https://cdn.bootcss.com/echarts/4.0.2/echarts-en.common.js"></script>
+    <script src="https://cdn.bootcss.com/echarts/4.2.0-rc.2/echarts.js"></script>
+    <!-- <script src="https://cdn.bootcss.com/echarts/4.0.2/echarts-en.common.js"></script> -->
     <!-- <script src="../JCalculator/JCalculator.js"></script> -->
     <script src="./build/easycharts.min.js"></script>
     <style>
@@ -13,7 +14,7 @@
             margin: 0;
             padding: 0;
         }
-        #chart {
+        .chart {
             width: 700px;
             height: 300px;
             /* border:1px solid #000 */
@@ -31,9 +32,10 @@
     </style>
 </head>
 <body>
-  <div id="chart"></div>
-  <div id="chart1"></div>
-  <div id="chart2"></div>
+  <div id="chart" class="chart"></div>
+  <div id="chart1" class="chart"></div>
+  <div id="chart2" class="chart"></div>
+  <div id="chart3" class="chart"></div>
   <script>
     window.onload = function () {
       var data = [{
@@ -76,21 +78,21 @@
           legend: 'name',
           x: 'key',
           y: 'value',
-          // direction: 'horizontal',
+        //   direction: 'horizontal',
           stack:true,
-          // orderBy:"DESC"
+          orderBy:"ASC"
       };
       myChart = echarts.init(document.getElementById('chart'), null, {renderer:'svg'});
       // ec.globalOption({
       //     color:["#cccccc","#aaaaaa"]
       // }, true)
       var bar = ec.barChart(data, option1);
-      console.log(JSON.stringify(bar, null, 2));
+      // console.log(JSON.stringify(bar, null, 2));
       myChart.setOption(bar);
       myChart1 = echarts.init(document.getElementById('chart1'));
       var line =  ec.lineChart(data, option1);
       myChart1.setOption(line);
-      
+
       var pieData = [{
           key: "name",
           value: 123
@@ -112,7 +114,40 @@
       myChart2 = echarts.init(document.getElementById('chart2'));
       myChart2.setOption(pie);
     };
-    
+
+    var kData = [{
+          name: 'demo1',
+          key:"1",
+          y: [10,20,0,30]
+      },{
+          name: 'demo1',
+          key:"2",
+          y: [10, 20, 0, 30]
+      },{
+          name: 'demo',
+          key:"1",
+          y: [10, 20, 0, 30]
+      },{
+          name: 'demo',
+          key:"2",
+          y: [10, 30, 1, 32]
+      },{
+          name: 'demo',
+          key:"3",
+          y: [20, 30, 5, 50]
+      },{
+          name: 'demo1',
+          key:"3",
+          y: [10, 20, 4, 30]
+      }]
+
+      var k = ec.kChart(kData, {
+        x: "key",
+        y: "y",
+      })
+      myChart3 = echarts.init(document.getElementById('chart3'));
+      myChart3.setOption(k);
+      console.log(JSON.stringify(k, null, 2));
   </script>
 </body>
 </html>
