@@ -1,40 +1,40 @@
-// let jc = require("../JCalculator/JCalculator.js")
+
 (function () {
   // 多种环境支持，以及一些零碎开头引用了underscore的代码，致敬经典。
   let root = typeof self == 'object' && self.self === self && self ||
-      typeof global == 'object' && global.global === global && global || this
+    typeof global == 'object' && global.global === global && global || this
   // 保存ec
   let previousec = root.ec
   // 原型赋值，便于压缩
   let ArrayProto = Array.prototype, ObjProto = Object.prototype
   let push = ArrayProto.push,
-      slice = ArrayProto.slice,
-      toString = ObjProto.toString,
-      hasOwnProperty = ObjProto.hasOwnProperty
+    slice = ArrayProto.slice,
+    toString = ObjProto.toString,
+    hasOwnProperty = ObjProto.hasOwnProperty
   // 定义了一些ECMAScript 5方法
   let nativeIsArray = Array.isArray,
-      nativeKeys = Object.keys,
-      nativeValues = Object.values ? Object.values : function (obj) {
-          return nativeKeys(obj).map(function (key) {
-              return obj[key]
-          })
-      },
-      nativeCreate = Object.create
+    nativeKeys = Object.keys,
+    nativeValues = Object.values ? Object.values : function (obj) {
+      return nativeKeys(obj).map(function (key) {
+        return obj[key]
+      })
+    },
+    nativeCreate = Object.create
 
   // 创建一个ec对象, 保留将来有拓展成支持链式的可能
   let ec = function (obj) {
-      if (obj instanceof ec) return obj
-      if (!(this instanceof ec)) return new ec(obj)
-      this._wrapped = obj
+    if (obj instanceof ec) return obj
+    if (!(this instanceof ec)) return new ec(obj)
+    this._wrapped = obj
   }
   //  针对不同的环境
   if (typeof exports != 'undefined' && !exports.nodeType) {
-      if (typeof module != 'undefined' && !module.nodeType && module.exports) {
-          exports = module.exports = ec
-      }
-      exports.ec = ec
+    if (typeof module != 'undefined' && !module.nodeType && module.exports) {
+      exports = module.exports = ec
+    }
+    exports.ec = ec
   } else {
-      root.ec = ec
+    root.ec = ec
   }
   // 版本
   ec.VERSION = '1.0.0'
@@ -45,7 +45,7 @@
   //全局默认样式
   opt.globalOption = {
     color: ["#1890FF", "#2FC25B", "#FACC14", "#223273", "#8543E0", "#13C2C2", "#3436C7", "#F04864"],
-    tooltip : {
+    tooltip: {
       trigger: 'axis',
     },
     grid: {
@@ -60,7 +60,7 @@
       top: 4,
       left: 10,
       textStyle: {
-          color: "#333"
+        color: "#333"
       }
     },
     legend: {
@@ -70,39 +70,95 @@
     },
   }
 
-  // 覆盖图表默认option,1~2ms内可以完成就不优化了。
-  getOption = (option, chartOpt) => {
+  /**
+   * 格式化配置项
+   * @param {object} option  图表配置项
+   * @param {object} easySet easySet
+   */
+  const setFormatter = (chartOption, easySet) => {
+    let formatter = easySet.formatter
+    if (!formatter) return {
+      chartOption,
+      easySet
+    }
+
+    let tooltip = chartOption.tooltip ? chartOption.tooltip : {},
+      legend = chartOption.legend ? chartOption.legend : {},
+      title = chartOption.title ? chartOption.title : {},
+      xAxis = chartOption.xAxis && chartOption.xAxis[0] ? chartOption.xAxis[0] : {},
+      yAxis = chartOption.yAxis && chartOption.yAxis[0] ? chartOption.yAxis[0] : {},
+      xAxisLabel = xAxis.axisLabel ? xAxis.axisLabel : {},
+      yAxisLabel = yAxis.axisLabel ? yAxis.axisLabel : {};
+
+    if (formatter.tooltip) {
+      tooltip.formatter = formatter.tooltip
+    }
+
+    if (formatter.legend) {
+      legend.formatter = formatter.legend
+    }
+
+    if (formatter.xAxis) {
+      xAxisLabel.formatter = formatter.xAxis
+    }
+
+    if (formatter.yAxis) {
+      yAxisLabel.formatter = formatter.yAxis
+    }
+
+    if (formatter.xName) {
+      xAxis.name = formatter.xName
+    }
+
+    if (formatter.yName) {
+      yAxis.name = formatter.yName
+    }
+
+    if (formatter.title) {
+      title.text = formatter.title
+    }
+    return {
+      chartOption,
+      easySet
+    }
+  }
+
+  /**
+   * 根据用户传入的配置和图表内置的配置输出相应echart选项
+   * @param {object} option 外部用户传入的选项
+   * @param {object} chartOpt 默认的图表选项
+   */
+  const getOption = (option, chartOpt) => {
     let defaultOption = jc.extend(true, {}, opt.globalOption)
     defaultOption = jc.extend(true, defaultOption, chartOpt)
     let easySet
     if (option.easySet) {
-      defaultOption =jc.extend(true, defaultOption, option)
+      defaultOption = jc.extend(true, defaultOption, option)
       easySet = option.easySet
       delete defaultOption.easySet
     } else {
       easySet = option
     }
-    return {
-      chartOption: defaultOption,
-      easySet: easySet
-    }
+
+    let config = setFormatter(defaultOption, easySet)
+    return config
   }
 
   /******       图表        *********/
 
   // 柱状图
   opt.barOption = {
-    tooltip : {
+    tooltip: {
       trigger: 'axis',
-      axisPointer : {
-          type : 'shadow'
+      axisPointer: {
+        type: 'shadow'
       }
     },
     xAxis: [{
       type: 'category'
     }],
     yAxis: [{
-        type: 'value'
+      type: 'value'
     }],
     series: [{
       type: 'bar'
@@ -112,13 +168,13 @@
     let config = getOption(option, opt.barOption)
     let easySet = config.easySet
     let chartOption = config.chartOption
-    let legendData = [], xAxisData = [], series = [],optSeries = chartOption.series[0]
+    let legendData = [], xAxisData = [], series = [], optSeries = chartOption.series[0]
 
     let legendGroup = jc.groupBy(data, easySet.legend)
 
     // 排序的数据
     let orderData = jc.sql({
-      select:{
+      select: {
         col: {
           key: easySet.x
         },
@@ -128,7 +184,7 @@
       },
       from: data,
       groupBy: easySet.x,
-      orderBy: easySet.orderBy ? {val: easySet.orderBy} : false
+      orderBy: easySet.orderBy ? { val: easySet.orderBy } : false
     })
 
     orderData.map(row => {
@@ -137,13 +193,13 @@
     })
 
     jc.forIn(legendGroup, (key, val) => {
-      let arr = jc.keyArray(val,[easySet.y])
+      // let arr = jc.keyArray(val, [easySet.y])
       let newSeries = jc.extend(true, {}, optSeries)
       let index = jc.index(val, easySet.x)
 
       legendData.push(key)
       newSeries.data = []
-      jc.map(xAxisData,row => {
+      jc.map(xAxisData, row => {
         newSeries.data.push(index[row][easySet.y])
       })
       newSeries.name = key
@@ -173,7 +229,7 @@
       boundaryGap: false
     }],
     yAxis: [{
-        type: 'value'
+      type: 'value'
     }],
     series: [{
       type: 'line'
@@ -183,13 +239,13 @@
     let config = getOption(option, opt.lineOption)
     let easySet = config.easySet
     let chartOption = config.chartOption
-    let legendData = [], xAxisData = [], series = [],optSeries = chartOption.series[0]
+    let legendData = [], xAxisData = [], series = [], optSeries = chartOption.series[0]
 
     let legendGroup = jc.groupBy(data, easySet.legend)
 
     // 排序的数据
     let orderData = jc.sql({
-      select:{
+      select: {
         col: {
           key: easySet.x
         },
@@ -199,7 +255,7 @@
       },
       from: data,
       groupBy: easySet.x,
-      orderBy: easySet.orderBy ? {val: easySet.orderBy} : false
+      orderBy: easySet.orderBy ? { val: easySet.orderBy } : false
     })
 
     orderData.map(row => {
@@ -208,20 +264,20 @@
     })
 
     jc.forIn(legendGroup, (key, val) => {
-      let arr = jc.keyArray(val,[easySet.y])
+      let arr = jc.keyArray(val, [easySet.y])
       let newSeries = jc.extend(true, {}, optSeries)
       let index = jc.index(val, easySet.x)
 
       legendData.push(key)
       newSeries.data = []
-      jc.map(xAxisData,row => {
+      jc.map(xAxisData, row => {
         newSeries.data.push(index[row])
       })
       newSeries.name = key
 
       if (easySet.stack) {
         newSeries.stack = '总量'
-        if (!newSeries.areaStyle) newSeries.areaStyle = {normal: {}}
+        if (!newSeries.areaStyle) newSeries.areaStyle = { normal: {} }
       }
       series.push(newSeries)
     })
@@ -250,7 +306,7 @@
       {
         name: ' ',
         type: 'pie',
-        radius : '55%',
+        radius: '55%',
         center: ['50%', '60%'],
       }
     ]
@@ -264,13 +320,13 @@
 
     pieData = jc.sql({
       select: {
-        col:{
+        col: {
           name: easySet.legend,
           value: easySet.val
         }
       },
-      from:data,
-      orderBy: easySet.orderBy ? {value: easySet.orderBy} : false
+      from: data,
+      orderBy: easySet.orderBy ? { value: easySet.orderBy } : false
     })
 
     legendData = (jc.keyArray(pieData, ['name']))['name']
@@ -310,7 +366,7 @@
     let config = getOption(option, opt.kOption)
     let easySet = config.easySet
     let chartOption = config.chartOption
-    let legendData = [], xAxisData = [], series = [], optSeries = chartOption.series[0]
+    let legendData = [], xAxisData = [], optSeries = chartOption.series[0]
 
     let legendGroup = jc.groupBy(data, easySet.legend)
 
@@ -340,7 +396,6 @@
 
       legendData.push(key)
       jc.map(xAxisData, row => {
-        console.log(index[row][easySet.y], row, index, easySet.y)
         newSeries.data.push(index[row][easySet.y])
       })
     })
@@ -372,7 +427,7 @@
   // 对AMD支持的一些处理
   if (typeof define == 'function' && define.amd) {
     define('ec', [], function () {
-        return ec
+      return ec
     })
   }
 }())
