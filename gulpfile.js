@@ -1,20 +1,22 @@
 var gulp = require("gulp");
 var eslint = require("gulp-eslint");
-var babel = require('gulp-babel');
-var concat = require('gulp-concat');
-var uglify = require('gulp-uglify');
-var rename = require('gulp-rename');
-var sourcemaps = require('gulp-sourcemaps');
+var babel = require("gulp-babel");
+var concat = require("gulp-concat");
+var uglify = require("gulp-uglify");
+var rename = require("gulp-rename");
+var sourcemaps = require("gulp-sourcemaps");
+var webserver = require("gulp-webserver");
+var connect = require("gulp-connect");
 
-gulp.task('js', function () {
-  return gulp.src(['../JCalculator/JCalculator.js', './easyCharts.js']) // 指明源文件路径、并进行文件匹配
+gulp.task("js", function () {
+  return gulp.src(["../JCalculator/JCalculator.js", "./easyCharts.js"]) // 指明源文件路径、并进行文件匹配
     .pipe(babel()) // babel
-    .pipe(concat('./build/easyCharts.js'))
-    .pipe(gulp.dest('./')) // 输出路径
+    .pipe(concat("./build/easyCharts.js"))
+    .pipe(gulp.dest("./")) // 输出路径
     .pipe(uglify({})) // 使用uglify进行压缩
-    .pipe(rename('./build/easyCharts.min.js'))
+    .pipe(rename("./build/easyCharts.min.js"))
     .pipe(sourcemaps.write())  //输出 .map 文件
-    .pipe(gulp.dest('./')); // 输出路径
+    .pipe(gulp.dest("./")); // 输出路径
 });
 
 gulp.task("lint", function () {
@@ -73,11 +75,31 @@ gulp.task("lint", function () {
     .pipe(eslint.failAfterError());
 });
 
-// 监听任务
-gulp.task("watch", function () {
-  gulp.watch(["./easycharts.js", "!node_modules/**"], ["js"]);
+
+gulp.task("connect", function() {
+  connect.server({
+    root: "./",
+    livereload: true
+  });
 });
 
-gulp.task("default", ["lint"], function () {
-  console.log("lint successful")
+gulp.task("connect", function() {
+  connect.server({
+    root: "./",
+    livereload: true
+  });
+});
+
+gulp.task("html", function () {
+  gulp.src("./*.html")
+    .pipe(connect.reload());
+});
+
+// 监听任务
+gulp.task("watch", function () {
+  gulp.watch(["./easycharts.js", "!node_modules/**", "./*.html"], ["js", "html"]);
+});
+
+gulp.task("default", ["connect", "watch"], function () {
+  // console.log("lint successful")
 });
