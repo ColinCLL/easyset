@@ -30,15 +30,15 @@
     <div id="chart1" class="chart"></div>
     <div id="chart2" class="chart"></div>
     <div id="chart3" class="chart"></div>
-    <div id="chart4" class="chart">123123</div>
+    <div id="chart4" class="chart"></div>
     <script>
         window.onload = function () {
             var data = [{
-                name: '水果',
+                name: 'demo1',
                 key: "1",
                 value: 99
             }, {
-                name: '水果',
+                name: 'demo1',
                 key: "2",
                 value: 130
             }, {
@@ -54,7 +54,7 @@
                 key: "3",
                 value: 109
             }, {
-                name: '水果',
+                name: 'demo1',
                 key: "3",
                 value: 10
             }]
@@ -80,7 +80,8 @@
                     tooltip: () => {
                         return 123
                     },
-                    title: "销量"
+                    title: "销量",
+                    legend: "???"
                 }
             };
             myChart = echarts.init(document.getElementById('chart'), null, { renderer: 'svg' });
@@ -149,6 +150,37 @@
         myChart3 = echarts.init(document.getElementById('chart3'));
         myChart3.setOption(k);
         console.log(JSON.stringify(k, null, 2));
+
+        let mapData = [
+            {"name":"广东","flowIn":1000,"flowOut":500,type:"流入","targe":"四川"},
+            {"name":"广东","flowIn":300,"flowOut":700,type:"流入","targe":"西藏"},
+            {"name":"广东","flowIn":900,"flowOut":50,type:"流入","targe":"广西"},
+            {"name":"广东","flowIn":300,"flowOut":50,type:"流入","targe":"青海"},
+            {"name":"广东","flowIn":500,"flowOut":1000,type:"流入","targe":"甘肃"},
+            {"name":"广东","flowIn":500,"flowOut":500,type:"流入","targe":"陕西"},
+            {"name":"广东","flowIn":850,"flowOut":750,type:"流入","targe":"河北"},
+            {"name":"广东","flowIn":560,"flowOut":508,type:"流入","targe":"北京"},
+            {"name":"广东","flowIn":530,"flowOut":750,type:"流入","targe":"河南"},
+            {"name":"广东","flowIn":950,"flowOut":950,type:"流出","targe":"海南"},
+            {"name":"广东","flowIn":550,"flowOut":950,type:"流出","targe":"云南"},
+            {"name":"上海","flowIn":50,"flowOut":50,type:"流入","targe":"北京"},
+            {"name":"上海","flowIn":50,"flowOut":50,type:"流入","targe":"北海"},
+            {"name":"上海","flowIn":50,"flowOut":50,type:"流入","targe":"海口"},
+            {"name":"上海","flowIn":50,"flowOut":50,type:"流入","targe":"昆明"}
+        ]
+        ec.mapChart(mapData, {
+            value: ["flowIn","flowOut"],
+            region: "name",
+            mapType: "China",
+            tooltipDetail: true,
+            formatter: {
+                tooltip: "123",
+                title: "321",
+                legend: "",
+            }
+        })
+        myChart4 = echarts.init(document.getElementById('chart4'));
+        // myChart4.setOption(map);
     </script>
 </body>
 

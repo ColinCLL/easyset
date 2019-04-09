@@ -413,6 +413,65 @@
     return chartOption
   }
 
+
+
+  // 地图
+  opt.mapOption = {
+    color:['#9d70e3','#9d70e3'],
+    tooltip: {
+      trigger: 'item'
+    },
+    visualMap: {
+      min: 0,
+      // max: obj.max,
+      left: 'left',
+      top: 'bottom',
+        text: ['高','低'],           // 文本，默认为数值文本
+        calculable: true,
+        inRange: {color: ['#ddf5ff','#5fb0ff']}
+      },
+      legend: {
+        orient: 'vertical',
+        top: 'bottom',
+        left: 'right',
+          //,selectedMode: 'single'
+      },
+      geo: {
+        map: 'china',
+        label: {
+          emphasis: {
+            show: false
+          }
+        },
+        itemStyle:{
+          normal:{
+            label:{
+              show:true
+            },
+          borderColor: '#80a9c3',//区域边框颜色
+          areaStyle:{color:'fff'}   //设置地图背景色的颜色设置
+        },
+        emphasis:{
+          label:{
+            show:false
+          }
+        }
+      },
+      label:{
+        normal: {show: false},
+        emphasis:{show: false}
+      },
+    },
+  };
+
+  ec.mapChart = (data, option) => {
+    let config = getOption(option, opt.kOption)
+    let easySet = config.easySet
+    let chartOption = config.chartOption
+    console.log(easySet,chartOption)
+  }
+
+
   // 修改图表默认样式
   jc.forIn(opt, (key, val) => {
     ec[key] = (option, deep) => {
