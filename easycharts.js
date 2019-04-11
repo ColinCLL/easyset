@@ -87,8 +87,8 @@
       title = chartOption.title ? chartOption.title : {},
       xAxis = chartOption.xAxis && chartOption.xAxis[0] ? chartOption.xAxis[0] : {},
       yAxis = chartOption.yAxis && chartOption.yAxis[0] ? chartOption.yAxis[0] : {},
-      xAxisLabel = xAxis.axisLabel ? xAxis.axisLabel : {},
-      yAxisLabel = yAxis.axisLabel ? yAxis.axisLabel : {};
+      xAxisLabel = xAxis.axisLabel = xAxis.axisLabel ? xAxis.axisLabel : {},
+      yAxisLabel = yAxis.axisLabel = yAxis.axisLabel ? yAxis.axisLabel : {};
 
     if (formatter.tooltip) {
       tooltip.formatter = formatter.tooltip
@@ -417,7 +417,7 @@
 
   // 地图
   opt.mapOption = {
-    color:['#9d70e3','#9d70e3'],
+    color: ['#9d70e3', '#9d70e3'],
     tooltip: {
       trigger: 'item'
     },
@@ -426,40 +426,40 @@
       // max: obj.max,
       left: 'left',
       top: 'bottom',
-        text: ['高','低'],           // 文本，默认为数值文本
-        calculable: true,
-        inRange: {color: ['#ddf5ff','#5fb0ff']}
+      text: ['高', '低'],           // 文本，默认为数值文本
+      calculable: true,
+      inRange: { color: ['#ddf5ff', '#5fb0ff'] }
+    },
+    legend: {
+      orient: 'vertical',
+      top: 'bottom',
+      left: 'right',
+      //,selectedMode: 'single'
+    },
+    geo: {
+      map: 'china',
+      label: {
+        emphasis: {
+          show: false
+        }
       },
-      legend: {
-        orient: 'vertical',
-        top: 'bottom',
-        left: 'right',
-          //,selectedMode: 'single'
-      },
-      geo: {
-        map: 'china',
-        label: {
-          emphasis: {
-            show: false
-          }
-        },
-        itemStyle:{
-          normal:{
-            label:{
-              show:true
-            },
+      itemStyle: {
+        normal: {
+          label: {
+            show: true
+          },
           borderColor: '#80a9c3',//区域边框颜色
-          areaStyle:{color:'fff'}   //设置地图背景色的颜色设置
+          areaStyle: { color: 'fff' }   //设置地图背景色的颜色设置
         },
-        emphasis:{
-          label:{
-            show:false
+        emphasis: {
+          label: {
+            show: false
           }
         }
       },
-      label:{
-        normal: {show: false},
-        emphasis:{show: false}
+      label: {
+        normal: { show: false },
+        emphasis: { show: false }
       },
     },
   };
@@ -468,7 +468,7 @@
     let config = getOption(option, opt.kOption)
     let easySet = config.easySet
     let chartOption = config.chartOption
-    console.log(easySet,chartOption)
+    console.log(easySet, chartOption)
   }
 
 
