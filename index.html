@@ -6,11 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <script src="https://cdn.bootcss.com/echarts/4.2.0-rc.2/echarts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.2.1/echarts-en.min.js"></script>
     <!-- <script src="https://cdn.bootcss.com/echarts/4.0.2/echarts-en.common.js"></script> -->
     <!-- <script src="../JCalculator/JCalculator.js"></script> -->
     <!-- <script src="./build/easycharts.min.js"></script> -->
     <script src="../build/easycharts.js"></script>
+    <script src="./china.js"></script>
+
     <style>
         * {
             margin: 0;
@@ -19,7 +21,7 @@
 
         .chart {
             width: 700px;
-            height: 300px;
+            height: 500px;
             /* border:1px solid #000 */
         }
     </style>
@@ -168,19 +170,21 @@
             {"name":"上海","flowIn":50,"flowOut":50,type:"流入","targe":"海口"},
             {"name":"上海","flowIn":50,"flowOut":50,type:"流入","targe":"昆明"}
         ]
-        ec.mapChart(mapData, {
+        let mapOption = ec.mapChart(mapData, {
             value: ["flowIn","flowOut"],
-            region: "name",
-            mapType: "China",
+            region: "targe",
+            mapType: "china",
             tooltipDetail: true,
-            formatter: {
-                tooltip: "123",
-                title: "321",
-                legend: "",
-            }
+            // formatter: {
+            //     tooltip: "123",
+            //     title: "321",
+            //     legend: "",
+            // }
         })
+        console.log(JSON.stringify(mapOption, null ,2));
         myChart4 = echarts.init(document.getElementById('chart4'));
-        // myChart4.setOption(map);
+        myChart4.setOption(mapOption);
+    }
     </script>
 </body>
 

@@ -436,39 +436,51 @@
       left: 'right',
       //,selectedMode: 'single'
     },
-    geo: {
-      map: 'china',
-      label: {
-        emphasis: {
-          show: false
-        }
-      },
-      itemStyle: {
-        normal: {
-          label: {
-            show: true
+    series: [
+      {
+          name: '地图',
+          type: 'map',
+          mapType: "", //
+          itemStyle:{
+              normal:{label:{show:true}},
+              emphasis:{label:{show:false}}
           },
-          borderColor: '#80a9c3',//区域边框颜色
-          areaStyle: { color: 'fff' }   //设置地图背景色的颜色设置
-        },
-        emphasis: {
-          label: {
-            show: false
-          }
-        }
-      },
-      label: {
-        normal: { show: false },
-        emphasis: { show: false }
-      },
-    },
+          data: []
+      }
+    ]
   };
 
   ec.mapChart = (data, option) => {
-    let config = getOption(option, opt.kOption)
+    let config = getOption(option, opt.mapOption)
     let easySet = config.easySet
     let chartOption = config.chartOption
-    console.log(easySet, chartOption)
+    let regionDic = {};
+
+    let regionData = jc.sql({
+      select:{
+        col: {
+          name: easySet.region,
+          value: (row) => {
+            let value = 0
+            jc.map(easySet.value, d => {
+              regionDic[easySet.region] = row
+              value += row[d]
+            })
+            return value
+          }
+        }
+      },
+      from: data
+    })
+    let max =jc.max(regionData, "value")
+    console.log(max)
+    delete chartOption.xAxis
+    delete chartOption.yAxis
+    chartOption.visualMap.max = max.value
+    chartOption.series[0].data = regionData
+    chartOption.series[0].mapType = easySet.mapType
+
+    return chartOption
   }
 
 
