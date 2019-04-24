@@ -438,14 +438,14 @@
     },
     series: [
       {
-          name: '地图',
-          type: 'map',
-          mapType: "", //
-          itemStyle:{
-              normal:{label:{show:true}},
-              emphasis:{label:{show:false}}
-          },
-          data: []
+        name: '地图',
+        type: 'map',
+        mapType: "", //
+        itemStyle: {
+          normal: { label: { show: true } },
+          emphasis: { label: { show: false } }
+        },
+        data: []
       }
     ]
   };
@@ -457,7 +457,7 @@
     let regionDic = {};
 
     let regionData = jc.sql({
-      select:{
+      select: {
         col: {
           name: easySet.region,
           value: (row) => {
@@ -472,14 +472,77 @@
       },
       from: data
     })
-    let max =jc.max(regionData, "value")
-    console.log(max)
+    let max = jc.max(regionData, "value")
     delete chartOption.xAxis
     delete chartOption.yAxis
     chartOption.visualMap.max = max.value
     chartOption.series[0].data = regionData
     chartOption.series[0].mapType = easySet.mapType
 
+    return chartOption
+  }
+
+
+  // 盒须图
+  opt.boxplotOption = {
+    "tooltip": {
+      "formatter": function (p) {
+        console.log(p)
+        let str = `${p[0].name}<br/>
+        最大值: ${p[0].data[5]}<br/>
+        上四分位: ${p[0].data[4]}<br/>
+        中位数: ${p[0].data[3]}<br/>
+        下四分位: ${p[0].data[2]}<br/>
+        最小值: ${p[0].data[1]}
+        `
+        return str
+      }
+    },
+    "xAxis": [{
+      "type": "category",
+      "boundaryGap": true,
+      "nameGap": 30,
+      "splitArea": {
+        "show": false
+      },
+      "splitLine": {
+        "show": false
+      },
+      "data": []
+    }],
+    "yAxis": [{
+      "type": "value",
+    }],
+    "series": [
+      {
+        "name": "boxplot",
+        "type": "boxplot",
+      },
+    ]
+  };
+  ec.boxplotChart = (data, option) => {
+    let config = getOption(option, opt.boxplotOption)
+    let easySet = config.easySet
+    let chartOption = config.chartOption
+    let legendData = [], xAxisData = [], optSeries = chartOption.series[0]
+    let seriesData = []
+    data.map(row => {
+      let arr = []
+      easySet.y.map(d => {
+        console.log(d, row[d])
+        arr.push(row[d])
+      })
+      legendData.push(row[easySet.legend])
+      xAxisData.push(row[easySet.x])
+      seriesData.push(arr.sort((a, b) => {
+        return a - b
+      }))
+    })
+
+    chartOption.series[0].data = seriesData
+    chartOption.legend.data = legendData
+    chartOption.xAxis[0].data = xAxisData
+    console.log(chartOption)
     return chartOption
   }
 
