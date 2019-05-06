@@ -1,9 +1,12 @@
 module.exports = {
-	title: 'Esaycharts',
+	title: 'Easycharts',
 	description: 'easySet for Echarts',
 	themeConfig: {
-		sidebar:[
-			["/", "介绍"]
+		nav: [
+			{ text: '文档', link: '/' },
+		],
+		sidebar: [
+			["/foo", "介绍"]
 		]
 	}
 }
