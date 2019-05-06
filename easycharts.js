@@ -257,7 +257,6 @@
       groupBy: easySet.x,
       orderBy: easySet.orderBy ? { val: easySet.orderBy } : false
     })
-
     orderData.map(row => {
       let x = row["key"]
       xAxisData.push(x)
@@ -486,14 +485,15 @@
   // 盒须图
   opt.boxplotOption = {
     "tooltip": {
+      "trigger": 'item',
       "formatter": function (p) {
         console.log(p)
-        let str = `${p[0].name}<br/>
-        最大值: ${p[0].data[5]}<br/>
-        上四分位: ${p[0].data[4]}<br/>
-        中位数: ${p[0].data[3]}<br/>
-        下四分位: ${p[0].data[2]}<br/>
-        最小值: ${p[0].data[1]}
+        let str = `${p.name}<br/>
+        最大值: ${p.data[5]}<br/>
+        上四分位: ${p.data[4]}<br/>
+        中位数: ${p.data[3]}<br/>
+        下四分位: ${p.data[2]}<br/>
+        最小值: ${p.data[1]}
         `
         return str
       }
@@ -524,25 +524,35 @@
     let config = getOption(option, opt.boxplotOption)
     let easySet = config.easySet
     let chartOption = config.chartOption
-    let legendData = [], xAxisData = [], optSeries = chartOption.series[0]
-    let seriesData = []
-    data.map(row => {
-      let arr = []
-      easySet.y.map(d => {
-        console.log(d, row[d])
-        arr.push(row[d])
-      })
-      legendData.push(row[easySet.legend])
-      xAxisData.push(row[easySet.x])
-      seriesData.push(arr.sort((a, b) => {
-        return a - b
-      }))
+    let legendData = [], xAxisData = [], series = [], optSeries = chartOption.series[0]
+    let lengendGroup = jc.groupBy(data, easySet.legend)
+    let xGroup = jc.groupBy(data, easySet.x)
+
+    jc.forIn(xGroup, (key) => {
+      xAxisData.push(key)
     })
 
-    chartOption.series[0].data = seriesData
+    jc.forIn(lengendGroup, (key, val) => {
+      let newSeries = jc.extend(true, {}, optSeries)
+      let index = jc.index(val, easySet.x)
+
+      legendData.push(key)
+      newSeries.data = []
+      jc.map(xAxisData, row => {
+        let arr = []
+        easySet.y.map(d => {
+          arr.push(index[row][d])
+        })
+        newSeries.data.push(arr.sort((a, b) => {
+          return a - b
+        }))
+      })
+      newSeries.name = key
+      series.push(newSeries)
+    });
+    chartOption.series = series
     chartOption.legend.data = legendData
     chartOption.xAxis[0].data = xAxisData
-    console.log(chartOption)
     return chartOption
   }
 
