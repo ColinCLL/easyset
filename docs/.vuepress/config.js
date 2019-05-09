@@ -5,8 +5,10 @@ module.exports = {
 		nav: [
 			{ text: '文档', link: '/' },
 		],
+		// sidebar: 'auto'
 		sidebar: [
-			["/foo", "介绍"]
+			["/", "介绍"],
+			["/tutorial", "教程"],
 		]
 	}
 }
