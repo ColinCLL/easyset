@@ -46,7 +46,7 @@ var barOption = jc.barChart(data, {
 });
 ```
 
-加入你对echarts熟悉，还允许你拓展使用echarts选项
+假如你对echarts熟悉，还允许你拓展使用echarts选项
 
 ```javascript
 var barOption = jc.barChart(data, {
