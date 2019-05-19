@@ -22,4 +22,21 @@ yarn add easycharts
 
 ```
 
-### 例子
+### 第一个例子
+
+<div ref="first">123</div>
+
+<script>
+import echarts from 'echarts';
+// let ec require('../build/easycharts.min.js');
+export default {
+  mounted () {
+    console.log(this.$ec, 111)
+    import('../build/easycharts.min.js').then(model => {
+      // use code
+      console.log(model)
+    })
+  }
+}
+</script>
+</ClientOnly>
