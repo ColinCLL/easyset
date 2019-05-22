@@ -24,19 +24,62 @@ yarn add easycharts
 
 ### 第一个例子
 
-<div ref="first">123</div>
+
+<div class="chart" id="first"></div>
+
+```html
+  <div class="chart" id="first"></div>
+```
+
+```js
+  let firstData = [
+    {name: "banana", value: 100, time: "1月1日"},  // 1月1日香蕉销量100
+    {name: "apple", value: 200, time: "1月1日"}, // 1月1日苹果销量200
+    {name: "orange", value: 240, time: "1月1日"}, // 1月1日苹果销量200
+  ]
+  let firstOption = this.$ec.barChart(firstData, {
+    legend: "time",
+    x: "name",
+    y: "value",
+    formatter: {
+      title: "第一个例子"
+    }
+  });
+  let first = echarts.init(document.getElementById("first"));
+  first.setOption(firstOption);
+
+```
 
 <script>
 import echarts from 'echarts';
-// let ec require('../build/easycharts.min.js');
 export default {
   mounted () {
-    console.log(this.$ec, 111)
-    import('../build/easycharts.min.js').then(model => {
-      // use code
-      console.log(model)
-    })
+    let ec = this.$ec
+
+    let firstData = [
+      {name: "banana", value: 100, time: "1月1日"},  // 1月1日香蕉销量100
+      {name: "apple", value: 200, time: "1月1日"}, // 1月1日苹果销量200
+      {name: "orange", value: 240, time: "1月1日"}, // 1月1日苹果销量200
+    ]
+    let firstOption = ec.barChart(firstData, {
+      legend: "time",
+      x: "name",
+      y: "value",
+      formatter: {
+        title: "标题"
+      }
+    });
+    let first = echarts.init(document.getElementById("first"));
+      console.log(firstOption);
+    first.setOption(firstOption);
+
   }
 }
 </script>
-</ClientOnly>
+
+<style>
+.chart {
+  width: 90%;
+  height: 200px;
+}
+</style>

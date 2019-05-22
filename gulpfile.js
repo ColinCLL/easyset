@@ -9,12 +9,12 @@ var webserver = require("gulp-webserver");
 var connect = require("gulp-connect");
 
 gulp.task("js", function () {
-  return gulp.src(["../JCalculator/JCalculator.js", "./easyCharts.js"]) // 指明源文件路径、并进行文件匹配
+  return gulp.src("./easycharts.js") // 指明源文件路径、并进行文件匹配
     .pipe(babel()) // babel
-    .pipe(concat("./build/easyCharts.js"))
+    .pipe(concat("./build/easycharts.js"))
     .pipe(gulp.dest("./")) // 输出路径
     .pipe(uglify({})) // 使用uglify进行压缩
-    .pipe(rename("./build/easyCharts.min.js"))
+    .pipe(rename("./build/easycharts.min.js"))
     .pipe(sourcemaps.write())  //输出 .map 文件
     .pipe(gulp.dest("./")); // 输出路径
 });
@@ -76,14 +76,14 @@ gulp.task("lint", function () {
 });
 
 
-gulp.task("connect", function() {
+gulp.task("connect", function () {
   connect.server({
     root: "./",
     livereload: true
   });
 });
 
-gulp.task("connect", function() {
+gulp.task("connect", function () {
   connect.server({
     root: "./",
     livereload: true

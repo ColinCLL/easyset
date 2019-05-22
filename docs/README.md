@@ -71,7 +71,7 @@ var barOption = jc.barChart(data, {
 // 例如
 var data = [
   {name: "banana", value: 100, time: "1月1日"},  // 1月1日香蕉销量100
-  {name: "apple", value: 200, , time: "1月1日"}, // 1月1日苹果销量200
+  {name: "apple", value: 200, time: "1月1日"}, // 1月1日苹果销量200
 ];
 ```
 数组中一个数据项基本就可以代表图表一个数据点，他是人类可读的，同时也贴近关系数据库简单查询可以生成数据，输出接口的。同时这种类型的数据非常方便二次使用，也方便服务端去做服务化应用。
@@ -89,7 +89,7 @@ var data = [
 // 例如
 var data = [
   {name: "banana", value: 100, time: "1月1日"},  // 1月1日香蕉销量100
-  {name: "apple", value: 200, , time: "1月2日"}, // 1月2日苹果销量200
+  {name: "apple", value: 200, time: "1月2日"}, // 1月2日苹果销量200
 ];
 
 // 柱状图，水果的销量对比
