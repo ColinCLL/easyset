@@ -3,5 +3,5 @@ dist/
 coverage/
 build/
 package-lock.json
-yarn.lock
+yarn.*
 yarn-error.log

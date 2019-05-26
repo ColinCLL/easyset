@@ -1,22 +1,53 @@
 var gulp = require("gulp");
 var eslint = require("gulp-eslint");
-var babel = require("gulp-babel");
 var concat = require("gulp-concat");
 var uglify = require("gulp-uglify");
 var rename = require("gulp-rename");
 var sourcemaps = require("gulp-sourcemaps");
 var webserver = require("gulp-webserver");
 var connect = require("gulp-connect");
+var rollup = require('gulp-rollup');
+
+var resolve = require('rollup-plugin-node-resolve');
+var commonjs = require('rollup-plugin-commonjs');
+var babel = require('rollup-plugin-babel');
+var rollup = require("rollup");
+
+
 
 gulp.task("js", function () {
-  return gulp.src("./easycharts.js") // 指明源文件路径、并进行文件匹配
-    .pipe(babel()) // babel
-    .pipe(concat("./build/easycharts.js"))
+  return gulp.src("build/easycharts.js") // 指明源文件路径、并进行文件匹配
     .pipe(gulp.dest("./")) // 输出路径
     .pipe(uglify({})) // 使用uglify进行压缩
     .pipe(rename("./build/easycharts.min.js"))
     .pipe(sourcemaps.write())  //输出 .map 文件
     .pipe(gulp.dest("./")); // 输出路径
+});
+
+gulp.task('build', function () {
+  return rollup.rollup({
+    input: "./src/index.js",
+    plugins: [
+      resolve({
+        mainFields: false
+      }),
+      commonjs({
+        namedExports: {
+          'node_modules/jcalculator/JCalculator.min.js': ['jcalculator']
+        }
+      }),
+      babel({
+        exclude: 'node_modules/**' // 只编译我们的源代码
+      })
+    ],
+  })
+    .then(function (bundle) {
+      bundle.write({
+        file: 'build/easycharts.js',
+        format: "umd",
+        name: "ec",
+      });
+    })
 });
 
 gulp.task("lint", function () {
@@ -97,7 +128,7 @@ gulp.task("html", function () {
 
 // 监听任务
 gulp.task("watch", function () {
-  gulp.watch(["./easycharts.js", "!node_modules/**", "./*.html"], ["js", "html"]);
+  gulp.watch(["./src/*.js", "!node_modules/**", "./*.html"], ["build", "js", "html"]);
 });
 
 gulp.task("default", ["connect", "watch"], function () {
