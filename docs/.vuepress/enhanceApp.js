@@ -2,7 +2,7 @@
  * 扩展 VuePress 应用
  */
 // import echarts from 'echarts';
-import ec from '../../easycharts.js';
+import ec from '../../src/index.js';
 let opt = {
   install(Vue) {
     Vue.prototype.$ec = ec

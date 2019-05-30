@@ -2,7 +2,7 @@
   "name": "easycharts",
   "version": "0.0.0",
   "description": "",
-  "main": "easycharts.js",
+  "main": "build/easycharts.js",
   "scripts": {
     "test": "istanbul cover ./node_modules/mocha/bin/_mocha",
     "babel": "babel easycharts.js -o ./build/easycharts.js",
@@ -10,7 +10,7 @@
     "docs:build": "vuepress build docs",
     "build": "rollup -c"
   },
-  "author": "",
+  "author": "ColinCLL/陈立林",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.4.4",

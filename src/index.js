@@ -125,10 +125,12 @@ opt.barOption = {
     }
   },
   xAxis: [{
-    type: 'category'
+    type: 'category',
+    nameGap: 6
   }],
   yAxis: [{
-    type: 'value'
+    type: 'value',
+    nameGap: 6
   }],
   series: [{
     type: 'bar'
@@ -182,6 +184,7 @@ ec.barChart = (data, option) => {
   chartOption.xAxis[0].data = xAxisData
 
   if (easySet.direction === 'horizontal') {
+    console.log("转换")
     let t
     t = chartOption.xAxis[0]
     chartOption.xAxis[0] = chartOption.yAxis[0]
