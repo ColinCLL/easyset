@@ -28,6 +28,7 @@
 </head>
 
 <body>
+    <div id="test" class="chart"></div>
     <div id="chart" class="chart"></div>
     <div id="chart1" class="chart"></div>
     <div id="chart2" class="chart"></div>
@@ -36,6 +37,241 @@
     <div id="chart5" class="chart"></div>
     <script>
         window.onload = function () {
+
+            var testData = [{
+                name: 'line',
+                label: "a",
+                key: "0.1",
+                value: 0.4
+            }, {
+                name: 'line',
+                label: "a",
+                key: "0.2",
+                value: 0.6
+            }, {
+                name: 'line',
+                label: "a",
+                key: "0.3",
+                value: 0.8
+            }, {
+                name: 'line',
+                label: "a",
+                key: "0.4",
+                value: 0.9
+            }, {
+                name: 'line',
+                label: "a",
+                key: "0.5",
+                value: 1
+            }, {
+                name: 'line',
+                label: "a",
+                key: "0.6",
+                value: 1
+            }, {
+                name: 'line',
+                label: "a",
+                key: "0.7",
+                value: 1
+            }, {
+                name: 'line',
+                label: "a",
+                key: "0.8",
+                value: 1
+            }, {
+                name: 'line',
+                label: "a",
+                key: "0.9",
+                value: 1
+            }, {
+                name: 'line',
+                label: "a",
+                key: "1.0",
+                value: 1
+            }, {
+                name: 'line1',
+                label: "a",
+                key: "0.1",
+                value: 0.1
+            }, {
+                name: 'line1',
+                label: "a",
+                key: "0.2",
+                value: 0.3
+            }, {
+                name: 'line1',
+                label: "a",
+                key: "0.3",
+                value: 0.4
+            }, {
+                name: 'line1',
+                label: "a",
+                key: "0.4",
+                value: 0.6
+            }, {
+                name: 'line1',
+                label: "a",
+                key: "0.5",
+                value: 0.8
+            }, {
+                name: 'line1',
+                label: "a",
+                key: "0.6",
+                value: 1
+            }, {
+                name: 'line1',
+                label: "a",
+                key: "0.7",
+                value: 1
+            }, {
+                name: 'line1',
+                label: "a",
+                key: "0.8",
+                value: 1
+            }, {
+                name: 'line1',
+                label: "a",
+                key: "0.9",
+                value: 1
+            }, {
+                name: 'line1',
+                label: "a",
+                key: "1.0",
+                value: 1
+            }, {
+                name: 'line2',
+                label: "b",
+                key: "0.1",
+                value: 0.2
+            }, {
+                name: 'line2',
+                label: "b",
+                key: "0.2",
+                value: 0.3
+            }, {
+                name: 'line2',
+                label: "b",
+                key: "0.3",
+                value: 0.5
+            }, {
+                name: 'line2',
+                label: "b",
+                key: "0.4",
+                value: 0.6
+            }, {
+                name: 'line2',
+                label: "b",
+                key: "0.5",
+                value: 0.8
+            }, {
+                name: 'line2',
+                label: "b",
+                key: "0.6",
+                value: 1
+            }, {
+                name: 'line2',
+                label: "b",
+                key: "0.7",
+                value: 1
+            }, {
+                name: 'line2',
+                label: "b",
+                key: "0.8",
+                value: 1
+            }, {
+                name: 'line2',
+                label: "b",
+                key: "0.9",
+                value: 1
+            }, {
+                name: 'line2',
+                label: "b",
+                key: "1.0",
+                value: 1
+            }, {
+                name: 'line4',
+                label: "b",
+                key: "0.1",
+                value: 0.1
+            }, {
+                name: 'line4',
+                label: "b",
+                key: "0.2",
+                value: 0.2
+            }, {
+                name: 'line4',
+                label: "b",
+                key: "0.3",
+                value: 0.2
+            }, {
+                name: 'line4',
+                label: "b",
+                key: "0.4",
+                value: 0.3
+            }, {
+                name: 'line4',
+                label: "b",
+                key: "0.5",
+                value: 0.4
+            }, {
+                name: 'line4',
+                label: "b",
+                key: "0.6",
+                value: 0.6
+            }, {
+                name: 'line4',
+                label: "b",
+                key: "0.7",
+                value: 0.8
+            }, {
+                name: 'line4',
+                label: "b",
+                key: "0.8",
+                value: 1
+            }, {
+                name: 'line4',
+                label: "b",
+                key: "0.9",
+                value: 1
+            }, {
+                name: 'line4',
+                label: "b",
+                key: "1.0",
+                value: 1
+            }];
+
+            var testOpt = ec.ksChart(testData, {
+                easySet: {
+                    legend: 'label',
+                    type: "name",
+                    x: 'key',
+                    y: 'value',
+                    formatter: {
+                        tooltip: (params) => {
+                            // console.log(params)
+                            // let str = params[0].name;
+                            let str = ""
+                            params.map(row => {
+                                let value = row.value;
+                                str += row.marker + row.seriesName + "-" + row.data.name + ":" + value + "<br>";
+                            });
+                            return str;
+                        }
+                    }
+                },
+                title: {
+                    text: "123123"
+                },
+                series: [{
+                    smooth: true,
+                }]
+            });
+            console.log(testOpt);
+            // console.log(JSON.stringify(bar, null, 2));
+            var testChart = echarts.init(document.getElementById('test'), null, { renderer: 'svg' });
+            testChart.setOption(testOpt);
+
+
             var data = [{
                 name: 'demo1',
                 key: "1",

@@ -184,7 +184,6 @@ ec.barChart = (data, option) => {
   chartOption.xAxis[0].data = xAxisData
 
   if (easySet.direction === 'horizontal') {
-    console.log("转换")
     let t
     t = chartOption.xAxis[0]
     chartOption.xAxis[0] = chartOption.yAxis[0]
@@ -267,6 +266,8 @@ ec.lineChart = (data, option) => {
 
   return chartOption
 }
+
+
 
 // 饼图
 opt.pieOption = {
@@ -460,7 +461,6 @@ opt.boxplotOption = {
   "tooltip": {
     "trigger": 'item',
     "formatter": function (p) {
-      console.log(p)
       let str = `${p.name}<br/>
         最大值: ${p.data[5]}<br/>
         上四分位: ${p.data[4]}<br/>
@@ -526,6 +526,120 @@ ec.boxplotChart = (data, option) => {
   chartOption.series = series
   chartOption.legend.data = legendData
   chartOption.xAxis[0].data = xAxisData
+  return chartOption
+}
+
+
+// ks图
+opt.ksOption = {
+  xAxis: [{
+    type: 'category',
+    boundaryGap: false
+  }],
+  yAxis: [{
+    type: 'value'
+  }],
+  series: [{
+    type: 'line',
+    markLine: {
+      animation: false,
+      // label: {
+      // 	normal: {
+      // 		formatter: 'y = 0.5 * x + 3',
+      // 		textStyle: {
+      // 			align: 'right'
+      // 		}
+      // 	}
+      // },
+      lineStyle: {
+        normal: {
+          type: 'solid'
+        }
+      },
+      // tooltip: {
+      // 	formatter: 'y = 0.5 * x + 3'
+      // },
+      data: [[{
+        coord: [],
+        symbol: 'none'
+      }, {
+        coord: [],
+        symbol: 'none'
+      }]]
+    }
+  }, {
+    type: 'line'
+  },]
+}
+ec.ksChart = (data, option) => {
+  let config = getOption(option, opt.ksOption)
+  let easySet = config.easySet
+  let chartOption = config.chartOption
+  let legendData = [], xAxisData = [], series = []
+
+  let legendGroup = jc.groupBy(data, easySet.legend)
+  // 排序的数据
+  let orderData = jc.sql({
+    select: {
+      col: {
+        key: easySet.x
+      },
+      sum: {
+        val: easySet.y
+      }
+    },
+    from: data,
+    groupBy: easySet.x,
+    orderBy: easySet.orderBy ? { val: easySet.orderBy } : false
+  })
+  orderData.map(row => {
+    let x = row["key"]
+    xAxisData.push(x)
+  })
+  jc.forIn(legendGroup, (key, val, i) => {
+
+    legendData.push(key) // 设置图例
+
+    let optSeries = jc.extend(true, {}, chartOption.series[0]);
+    let optSeries1 = jc.extend(true, {}, chartOption.series[1]);
+
+    let typeGroup = jc.groupBy(val, easySet.type) // 根据类型分组
+    let xGroup = jc.groupBy(val, easySet.x) // x分组，为了获取最大的差
+    let Xmax = [], max = 0
+    jc.forIn(xGroup, (k, v) => {
+      let gap = v[0][easySet.y] - v[1][easySet.y]
+      let abs = Math.abs(gap)
+      if (abs > max) {
+        Xmax = v
+        max = abs
+      }
+    })
+    let markDate = optSeries.markLine.data[0]
+    markDate[0].coord = [Xmax[0][easySet.x], Xmax[0][easySet.y]]
+    markDate[1].coord = [Xmax[1][easySet.x], Xmax[1][easySet.y]]
+    jc.forIn(typeGroup, (k, v, i) => {
+      let newSeries = jc.extend(true, {}, i == 0 ? optSeries : optSeries1)
+      let index = jc.index(v, easySet.x)
+      newSeries.data = []
+      jc.map(xAxisData, row => {
+        newSeries.data.push(index[row])
+      })
+      newSeries.name = key // 设置图例
+      series.push(newSeries)
+    })
+  })
+
+  chartOption.series = series
+  chartOption.legend.data = legendData
+  chartOption.xAxis[0].data = xAxisData
+
+  if (easySet.direction === 'horizontal') {
+    let t
+    t = chartOption.xAxis[0]
+    chartOption.xAxis[0] = chartOption.yAxis[0]
+    chartOption.yAxis[0] = t
+  }
+
   return chartOption
 }
 
