@@ -98,7 +98,6 @@ let easyBarOption = ec.barChart(easyData, {
   x: "name",
   y: "value",
   direction: "horizontal", // 可选，横向的图表
-  // legend: "", // 可选，配置图例
   // stack: true, // 可选，开启堆积图
 })
 
@@ -121,7 +120,7 @@ easycharts能够便捷的进行常用的格式化操作
       yName: "(价格)",
       title: "水果",
       xAxis(value) {
-        return value.toUpperCase() // 编程大写英文
+        return value.toUpperCase() // 转大写英文
       },
       yAxis(value) {
         return "$" + value
@@ -137,7 +136,15 @@ easycharts能够便捷的进行常用的格式化操作
 ```
 <div class="chart" id="formatBar"></div>
 
-## 皮肤设置
+## 主题设置
+
+主题设置的优先级从高到低的顺序是 easyset的option --> 某个图表的option --> 全局的option
+
+### 全局主题
+
+### 图表主题
+
+### 特殊个例主题设置
 
 <script>
 import echarts from 'echarts';
@@ -181,7 +188,7 @@ export default {
       x: "name",
       y: "value",
       direction: "horizontal", // 可选，横向的图表
-      // legend: "", // 可选，配置图例
+      // legend: "time", // 可选，配置图例
       // stack: true, // 可选，开启堆积图
     })
 
