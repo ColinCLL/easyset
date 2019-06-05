@@ -141,10 +141,12 @@
 	    }
 	  },
 	  xAxis: [{
-	    type: 'category'
+	    type: 'category',
+	    nameGap: 6
 	  }],
 	  yAxis: [{
-	    type: 'value'
+	    type: 'value',
+	    nameGap: 6
 	  }],
 	  series: [{
 	    type: 'bar'
@@ -477,7 +479,6 @@
 	  "tooltip": {
 	    "trigger": 'item',
 	    "formatter": function formatter(p) {
-	      console.log(p);
 	      var str = "".concat(p.name, "<br/>\n        \u6700\u5927\u503C: ").concat(p.data[5], "<br/>\n        \u4E0A\u56DB\u5206\u4F4D: ").concat(p.data[4], "<br/>\n        \u4E2D\u4F4D\u6570: ").concat(p.data[3], "<br/>\n        \u4E0B\u56DB\u5206\u4F4D: ").concat(p.data[2], "<br/>\n        \u6700\u5C0F\u503C: ").concat(p.data[1], "\n        ");
 	      return str;
 	    }
@@ -536,6 +537,125 @@
 	  chartOption.series = series;
 	  chartOption.legend.data = legendData;
 	  chartOption.xAxis[0].data = xAxisData;
+	  return chartOption;
+	}; // ks图
+
+
+	opt.ksOption = {
+	  xAxis: [{
+	    type: 'category',
+	    boundaryGap: false
+	  }],
+	  yAxis: [{
+	    type: 'value'
+	  }],
+	  series: [{
+	    type: 'line',
+	    markLine: {
+	      animation: false,
+	      // label: {
+	      // 	normal: {
+	      // 		formatter: 'y = 0.5 * x + 3',
+	      // 		textStyle: {
+	      // 			align: 'right'
+	      // 		}
+	      // 	}
+	      // },
+	      lineStyle: {
+	        normal: {
+	          type: 'solid'
+	        }
+	      },
+	      // tooltip: {
+	      // 	formatter: 'y = 0.5 * x + 3'
+	      // },
+	      data: [[{
+	        coord: [],
+	        symbol: 'none'
+	      }, {
+	        coord: [],
+	        symbol: 'none'
+	      }]]
+	    }
+	  }, {
+	    type: 'line'
+	  }]
+	};
+
+	ec.ksChart = function (data, option) {
+	  var config = getOption(option, opt.ksOption);
+	  var easySet = config.easySet;
+	  var chartOption = config.chartOption;
+	  var legendData = [],
+	      xAxisData = [],
+	      series = [];
+	  var legendGroup = JCalculator_min.groupBy(data, easySet.legend); // 排序的数据
+
+	  var orderData = JCalculator_min.sql({
+	    select: {
+	      col: {
+	        key: easySet.x
+	      },
+	      sum: {
+	        val: easySet.y
+	      }
+	    },
+	    from: data,
+	    groupBy: easySet.x,
+	    orderBy: easySet.orderBy ? {
+	      val: easySet.orderBy
+	    } : false
+	  });
+	  orderData.map(function (row) {
+	    var x = row["key"];
+	    xAxisData.push(x);
+	  });
+	  JCalculator_min.forIn(legendGroup, function (key, val, i) {
+	    legendData.push(key); // 设置图例
+
+	    var optSeries = JCalculator_min.extend(true, {}, chartOption.series[0]);
+	    var optSeries1 = JCalculator_min.extend(true, {}, chartOption.series[1]);
+	    var typeGroup = JCalculator_min.groupBy(val, easySet.type); // 根据类型分组
+
+	    var xGroup = JCalculator_min.groupBy(val, easySet.x); // x分组，为了获取最大的差
+
+	    var Xmax = [],
+	        max = 0;
+	    JCalculator_min.forIn(xGroup, function (k, v) {
+	      var gap = v[0][easySet.y] - v[1][easySet.y];
+	      var abs = Math.abs(gap);
+
+	      if (abs > max) {
+	        Xmax = v;
+	        max = abs;
+	      }
+	    });
+	    var markDate = optSeries.markLine.data[0];
+	    markDate[0].coord = [Xmax[0][easySet.x], Xmax[0][easySet.y]];
+	    markDate[1].coord = [Xmax[1][easySet.x], Xmax[1][easySet.y]];
+	    JCalculator_min.forIn(typeGroup, function (k, v, i) {
+	      var newSeries = JCalculator_min.extend(true, {}, i == 0 ? optSeries : optSeries1);
+	      var index = JCalculator_min.index(v, easySet.x);
+	      newSeries.data = [];
+	      JCalculator_min.map(xAxisData, function (row) {
+	        newSeries.data.push(index[row]);
+	      });
+	      newSeries.name = key; // 设置图例
+
+	      series.push(newSeries);
+	    });
+	  });
+	  chartOption.series = series;
+	  chartOption.legend.data = legendData;
+	  chartOption.xAxis[0].data = xAxisData;
+
+	  if (easySet.direction === 'horizontal') {
+	    var t;
+	    t = chartOption.xAxis[0];
+	    chartOption.xAxis[0] = chartOption.yAxis[0];
+	    chartOption.yAxis[0] = t;
+	  }
+
 	  return chartOption;
 	}; // 修改图表默认样式
 
