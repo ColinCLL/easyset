@@ -542,6 +542,16 @@
 
 
 	opt.ksOption = {
+	  tooltip: {
+	    formatter: function formatter(params) {
+	      var str = "";
+	      params.map(function (row) {
+	        var value = row.value;
+	        str += row.marker + row.seriesName + "-" + row.data.type + ":" + value + "<br>";
+	      });
+	      return str;
+	    }
+	  },
 	  xAxis: [{
 	    type: 'category',
 	    boundaryGap: false
@@ -638,8 +648,14 @@
 	      var index = JCalculator_min.index(v, easySet.x);
 	      newSeries.data = [];
 	      JCalculator_min.map(xAxisData, function (row) {
-	        newSeries.data.push(index[row]);
+	        newSeries.data.push({
+	          type: index[row][easySet.type],
+	          value: index[row][easySet.y],
+	          key: index[row][easySet.x],
+	          legend: index[row][easySet.legend]
+	        });
 	      });
+	      console.log(newSeries);
 	      newSeries.name = key; // 设置图例
 
 	      series.push(newSeries);

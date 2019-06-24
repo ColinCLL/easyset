@@ -532,6 +532,16 @@ ec.boxplotChart = (data, option) => {
 
 // ks图
 opt.ksOption = {
+  tooltip: {
+    formatter(params) {
+      let str = ""
+      params.map(row => {
+        let value = row.value;
+        str += row.marker + row.seriesName + "-" + row.data.type + ":" + value + "<br>";
+      });
+      return str;
+    }
+  },
   xAxis: [{
     type: 'category',
     boundaryGap: false
@@ -622,8 +632,15 @@ ec.ksChart = (data, option) => {
       let index = jc.index(v, easySet.x)
       newSeries.data = []
       jc.map(xAxisData, row => {
-        newSeries.data.push(index[row])
+        newSeries.data.push({
+          type: index[row][easySet.type],
+          value: index[row][easySet.y],
+          y: index[row][easySet.y],
+          x: index[row][easySet.x],
+          legend: index[row][easySet.legend]
+        })
       })
+      console.log(newSeries)
       newSeries.name = key // 设置图例
       series.push(newSeries)
     })

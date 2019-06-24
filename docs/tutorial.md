@@ -142,6 +142,8 @@ easycharts能够便捷的进行常用的格式化操作
 
 ### 全局主题
 
+通过`ec.globalOption(option, deep)`来配置全局主题
+
 ### 图表主题
 
 ### 特殊个例主题设置

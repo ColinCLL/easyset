@@ -246,18 +246,6 @@
                     type: "name",
                     x: 'key',
                     y: 'value',
-                    formatter: {
-                        tooltip: (params) => {
-                            // console.log(params)
-                            // let str = params[0].name;
-                            let str = ""
-                            params.map(row => {
-                                let value = row.value;
-                                str += row.marker + row.seriesName + "-" + row.data.name + ":" + value + "<br>";
-                            });
-                            return str;
-                        }
-                    }
                 },
                 title: {
                     text: "123123"
