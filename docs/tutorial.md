@@ -282,6 +282,6 @@ export default {
 <style>
 .chart {
   width: 90%;
-  height: 200px;
+  height: 400px;
 }
 </style>

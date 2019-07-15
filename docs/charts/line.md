@@ -1,8 +1,8 @@
-# 柱状图
+# 线图
 
-`ec.barOption(option, deep)` 设置所有饼图的默认option。 `ec.barChart(data, option)`生成echart的option。
+`ec.lineOption(option, deep)` 设置所有饼图的默认option。 `ec.lineChart(data, option)`生成echart的option。
 
-option 配置项：
+option配置项：
 ```js
 {
   legend: string, // 堆积图模式下必选，图例
@@ -21,30 +21,30 @@ option 配置项：
 
 ```
 
-## 普通柱状图
+## 普通线图
 ```js
-// <div class="chart" id="bar"></div>
-    let barData = [
+// <div class="chart" id="line"></div>
+    let lineData = [
       {name: "banana", value: 100, time: "1月1日"},  // 1月1日香蕉销量100
       {name: "apple", value: 200, time: "1月1日"}, // 1月1日苹果销量200
       {name: "orange", value: 240, time: "1月1日"}, // 1月1日苹果销量200
     ]
-    let barOption = ec.barChart(barData, {
+    let lineOption = ec.lineChart(lineData, {
       x: "name",
       y: "value",
       formatter: {
         title: "图表标题"
       }
     });
-    let bar = echarts.init(document.getElementById("bar"));
-    bar.setOption(barOption);
+    let line = echarts.init(document.getElementById("line"));
+    line.setOption(lineOption);
 
 ```
-<div class="chart" id="bar"></div>
+<div class="chart" id="line"></div>
 
-## 分组柱状图
+## 分组线图
 ```js
-    let barData = [
+    let lineData = [
       {name: "banana", value: 100, time: "1月1日"},  // 1月1日香蕉销量100
       {name: "banana", value: 100, time: "1月2日"},  // 1月1日香蕉销量100
       {name: "apple", value: 200, time: "1月1日"}, // 1月1日苹果销量200
@@ -52,7 +52,7 @@ option 配置项：
       {name: "apple", value: 200, time: "1月2日"}, // 1月1日苹果销量200
       {name: "orange", value: 240, time: "1月2日"}, // 1月1日苹果销量200
     ]
-    let barOption = ec.barChart(barStackData, {
+    let lineOption = ec.lineChart(lineStackData, {
       legend: "time",
       x: "name",
       y: "value",
@@ -66,12 +66,12 @@ option 配置项：
 
 <div class="chart" id="normal"></div>
 
-## 柱状堆积图
+## 线堆积图
 
 当`stack: true`的时候为堆积图模式。
 
 ```js
-    let barStackData = [
+    let lineStackData = [
       {name: "banana", value: 100, time: "1月1日"},  // 1月1日香蕉销量100
       {name: "banana", value: 100, time: "1月2日"},  // 1月1日香蕉销量100
       {name: "apple", value: 200, time: "1月1日"}, // 1月1日苹果销量200
@@ -79,7 +79,7 @@ option 配置项：
       {name: "apple", value: 200, time: "1月2日"}, // 1月1日苹果销量200
       {name: "orange", value: 240, time: "1月2日"}, // 1月1日苹果销量200
     ]
-    let barStackOption = ec.barChart(barStackData, {
+    let lineStackOption = ec.lineChart(lineStackData, {
       legend: "time",
       x: "name",
       y: "value",
@@ -88,11 +88,11 @@ option 配置项：
         title: "图表标题"
       }
     });
-    let barStack = echarts.init(document.getElementById("barStack"));
-    barStack.setOption(barStackOption);
+    let lineStack = echarts.init(document.getElementById("lineStack"));
+    lineStack.setOption(lineStackOption);
 ```
 
-<div class="chart" id="barStack"></div>
+<div class="chart" id="lineStack"></div>
 
 <script>
 import echarts from 'echarts';
@@ -105,20 +105,20 @@ export default {
   methods: {
     randerNormal() {
       let ec = this.$ec
-      let barData = [
+      let lineData = [
         {name: "banana", value: 100, time: "1月1日"},  // 1月1日香蕉销量100
         {name: "apple", value: 200, time: "1月1日"}, // 1月1日苹果销量200
         {name: "orange", value: 240, time: "1月1日"}, // 1月1日苹果销量200
       ]
-      let barOption = ec.barChart(barData, {
+      let lineOption = ec.lineChart(lineData, {
         x: "name",
         y: "value",
         formatter: {
           title: "图表标题"
         }
       });
-      let bar = echarts.init(document.getElementById("bar"));
-      bar.setOption(barOption);
+      let line = echarts.init(document.getElementById("line"));
+      line.setOption(lineOption);
     },
     randerNormal1() {
       let ec = this.$ec
@@ -130,7 +130,7 @@ export default {
         {name: "apple", value: 200, time: "1月2日"}, // 1月1日苹果销量200
         {name: "orange", value: 240, time: "1月2日"}, // 1月1日苹果销量200
       ]
-      let option = ec.barChart(data, {
+      let option = ec.lineChart(data, {
         legend: "time",
         x: "name",
         y: "value",
@@ -143,7 +143,7 @@ export default {
     },
     randerStack() {
       let ec = this.$ec
-      let barStackData = [
+      let lineStackData = [
         {name: "banana", value: 100, time: "1月1日"},  // 1月1日香蕉销量100
         {name: "banana", value: 100, time: "1月2日"},  // 1月1日香蕉销量100
         {name: "apple", value: 200, time: "1月1日"}, // 1月1日苹果销量200
@@ -151,7 +151,7 @@ export default {
         {name: "apple", value: 200, time: "1月2日"}, // 1月1日苹果销量200
         {name: "orange", value: 240, time: "1月2日"}, // 1月1日苹果销量200
       ]
-      let barStackOption = ec.barChart(barStackData, {
+      let lineStackOption = ec.lineChart(lineStackData, {
         legend: "time",
         x: "name",
         y: "value",
@@ -160,8 +160,8 @@ export default {
           title: "图表标题"
         }
       });
-      let barStack = echarts.init(document.getElementById("barStack"));
-      barStack.setOption(barStackOption);
+      let lineStack = echarts.init(document.getElementById("lineStack"));
+      lineStack.setOption(lineStackOption);
     }
   }
 }

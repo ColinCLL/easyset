@@ -11,6 +11,7 @@ module.exports = {
 			["/tutorial", "教程"],
 			["/charts/pie", "饼图"],
 			["/charts/bar", "柱状图"],
+			["/charts/line", "线图"],
 		]
 	}
 }
