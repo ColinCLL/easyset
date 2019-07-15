@@ -2,6 +2,20 @@
 
 `ec.pieOption(option, deep)` 设置所有饼图的默认option。 `ec.pieChart(data, option)`生成echart的option。
 
+option 配置项：
+```js
+{
+  legend: string, // 必选，图例
+  val: string, // 必选，值
+  formatter: { // 格式化
+    title: string, // 标题名称
+    tooltip: string | function, // 提示信息
+  }
+}
+
+```
+
+
 ```js
 // <div class="chart" id="pie"></div>
 let pieData = [

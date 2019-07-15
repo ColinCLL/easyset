@@ -9,6 +9,7 @@ option 配置项：
   x: string, // 必选，x值
   y: string, // 必选，y值
   stack: boolean, // 堆积模式，true开启 默认false
+  direction: "horizontal", // 横向的图表
   formatter: { // 格式化
     title: string, // 标题名称
     tooltip: string | function, // 提示信息
@@ -66,6 +67,31 @@ option 配置项：
 
 <div class="chart" id="normal"></div>
 
+## 横向柱状图
+
+当`direction: "horizontal"`的时候为横向模式。
+
+```js
+  let barData = [
+    {name: "banana", value: 100, time: "1月1日"},  // 1月1日香蕉销量100
+    {name: "apple", value: 200, time: "1月1日"}, // 1月1日苹果销量200
+    {name: "orange", value: 240, time: "1月1日"}, // 1月1日苹果销量200
+  ]
+  let barOption = ec.barChart(barData, {
+    x: "name",
+    y: "value",
+    direction: "horizontal", // 横向的图表
+    formatter: {
+      title: "图表标题"
+    }
+  });
+  let direction = echarts.init(document.getElementById("direction"));
+  direction.setOption(barOption);
+
+```
+
+<div class="chart" id="direction"></div>
+
 ## 柱状堆积图
 
 当`stack: true`的时候为堆积图模式。
@@ -100,6 +126,7 @@ export default {
   mounted () {
     this.randerNormal();
     this.randerNormal1();
+    this.randerDirection();
     this.randerStack();
   },
   methods: {
@@ -140,6 +167,24 @@ export default {
       });
       let normal = echarts.init(document.getElementById("normal"));
       normal.setOption(option);
+    },
+    randerDirection() {
+      let ec = this.$ec
+      let barData = [
+        {name: "banana", value: 100, time: "1月1日"},  // 1月1日香蕉销量100
+        {name: "apple", value: 200, time: "1月1日"}, // 1月1日苹果销量200
+        {name: "orange", value: 240, time: "1月1日"}, // 1月1日苹果销量200
+      ]
+      let barOption = ec.barChart(barData, {
+        x: "name",
+        y: "value",
+        direction: "horizontal", // 横向的图表
+        formatter: {
+          title: "图表标题"
+        }
+      });
+      let direction = echarts.init(document.getElementById("direction"));
+      direction.setOption(barOption);
     },
     randerStack() {
       let ec = this.$ec
