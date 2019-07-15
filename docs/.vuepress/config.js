@@ -9,6 +9,8 @@ module.exports = {
 		sidebar: [
 			["/", "介绍"],
 			["/tutorial", "教程"],
+			["/charts/pie", "饼图"],
+			["/charts/bar", "柱状图"],
 		]
 	}
 }

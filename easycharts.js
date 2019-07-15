@@ -66,6 +66,7 @@
 	    easySet: easySet
 	  };
 	  var tooltip = chartOption.tooltip ? chartOption.tooltip : {},
+	      label = chartOption.label ? chartOption.label : {},
 	      legend = chartOption.legend ? chartOption.legend : {},
 	      title = chartOption.title ? chartOption.title : {},
 	      xAxis = chartOption.xAxis && chartOption.xAxis[0] ? chartOption.xAxis[0] : {},
@@ -75,6 +76,10 @@
 
 	  if (formatter.tooltip) {
 	    tooltip.formatter = formatter.tooltip;
+	  }
+
+	  if (formatter.label) {
+	    label.formatter = formatter.label;
 	  }
 
 	  if (formatter.legend) {
@@ -302,6 +307,7 @@
 
 	ec.pieChart = function (data, option) {
 	  var config = getOption(option, opt.pieOption);
+	  console.log(config);
 	  var easySet = config.easySet;
 	  var chartOption = config.chartOption;
 	  var pieData = [],
@@ -651,7 +657,8 @@
 	        newSeries.data.push({
 	          type: index[row][easySet.type],
 	          value: index[row][easySet.y],
-	          key: index[row][easySet.x],
+	          y: index[row][easySet.y],
+	          x: index[row][easySet.x],
 	          legend: index[row][easySet.legend]
 	        });
 	      });

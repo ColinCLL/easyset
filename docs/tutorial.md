@@ -143,9 +143,60 @@ chart.setOption(option);
 ### 图表主题
 
 通过`ec.[chart name]Option(option, deep)`来配置全局主题，deep 参数是 true 的时候会将新的 option 深度覆盖到旧的 option 上；如果是 false 或者忽略，新 option 将会替换掉旧的 option。
-// 没写完~~
+
+例如：
+```js
+
+// 设置barChart的option, 该option替换掉旧的option
+ec.barOption({
+  xAxis: {
+    type: "category",
+  },
+  yAxis: {
+    type: "value"
+  },
+  series: [{
+    type: "bar"
+  }]
+});
+
+
+// 设置barChart的option.该option覆盖再旧的option上
+ec.barOption({
+  color: ["#000", "#111", "#222", "#333"]
+}, true);
+
+```
 
 ### 特殊个例主题设置
+
+在使用图表的时候难免会有需要一些特殊的设置，所以easycharts的配置项可以作为类似echarts的拓展配置项来用。
+
+
+```js
+let chartOption = ec.barChart(firstData, {
+  // easycharts的设置项变成easySet作为easy的拓展配置项
+  easySet: {
+    legend: "time",
+    x: "name",
+    y: "value",
+    formatter: {
+      title: "图表标题"
+    }
+  },
+  // easySet 同级可以使用echats有的配置项，涉及数据应该交给easySet处理，而不是在这里输入
+  color: ["#ccc"],
+  ...
+})
+
+// 因为easycharts本身生成的echarts的配置项，也可以在生成option后再修改
+
+// echarts的title配置
+chartOption.title = {
+  text: "title name"
+}
+
+```
 
 <script>
 import echarts from 'echarts';
