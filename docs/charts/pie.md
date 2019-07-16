@@ -23,7 +23,7 @@ let pieData = [
   {name: "apple", value: 200, time: "1月1日"}, // 1月1日苹果销量200
   {name: "orange", value: 240, time: "1月1日"}, // 1月1日苹果销量200
 ]
-let pieOption = ec.barChart(pieData, {
+let pieOption = ec.pieChart(pieData, {
   legend: "time",
   x: "name",
   y: "value",

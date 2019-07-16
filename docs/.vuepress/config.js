@@ -12,6 +12,8 @@ module.exports = {
 			["/charts/pie", "饼图"],
 			["/charts/bar", "柱状图"],
 			["/charts/line", "线图"],
+			["/charts/map", "地图"],
+			["/charts/boxplot", "盒须图"],
 		]
 	}
 }

@@ -66,7 +66,6 @@
 	    easySet: easySet
 	  };
 	  var tooltip = chartOption.tooltip ? chartOption.tooltip : {},
-	      label = chartOption.label ? chartOption.label : {},
 	      legend = chartOption.legend ? chartOption.legend : {},
 	      title = chartOption.title ? chartOption.title : {},
 	      xAxis = chartOption.xAxis && chartOption.xAxis[0] ? chartOption.xAxis[0] : {},
@@ -76,10 +75,6 @@
 
 	  if (formatter.tooltip) {
 	    tooltip.formatter = formatter.tooltip;
-	  }
-
-	  if (formatter.label) {
-	    label.formatter = formatter.label;
 	  }
 
 	  if (formatter.legend) {
@@ -307,7 +302,6 @@
 
 	ec.pieChart = function (data, option) {
 	  var config = getOption(option, opt.pieOption);
-	  console.log(config);
 	  var easySet = config.easySet;
 	  var chartOption = config.chartOption;
 	  var pieData = [],
@@ -424,6 +418,7 @@
 	    }
 	  },
 	  legend: {
+	    show: false,
 	    orient: 'vertical',
 	    top: 'bottom',
 	    left: 'right' //,selectedMode: 'single'
@@ -461,7 +456,7 @@
 	        name: easySet.region,
 	        value: function value(row) {
 	          var value = 0;
-	          JCalculator_min.map(easySet.value, function (d) {
+	          JCalculator_min.map(easySet.val, function (d) {
 	            regionDic[easySet.region] = row;
 	            value += row[d];
 	          });
@@ -662,7 +657,6 @@
 	          legend: index[row][easySet.legend]
 	        });
 	      });
-	      console.log(newSeries);
 	      newSeries.name = key; // 设置图例
 
 	      series.push(newSeries);

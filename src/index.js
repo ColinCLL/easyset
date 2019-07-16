@@ -404,6 +404,7 @@ opt.mapOption = {
     inRange: { color: ['#ddf5ff', '#5fb0ff'] }
   },
   legend: {
+    show: false,
     orient: 'vertical',
     top: 'bottom',
     left: 'right',
@@ -435,7 +436,7 @@ ec.mapChart = (data, option) => {
         name: easySet.region,
         value: (row) => {
           let value = 0
-          jc.map(easySet.value, d => {
+          jc.map(easySet.val, d => {
             regionDic[easySet.region] = row
             value += row[d]
           })
@@ -640,7 +641,6 @@ ec.ksChart = (data, option) => {
           legend: index[row][easySet.legend]
         })
       })
-      console.log(newSeries)
       newSeries.name = key // 设置图例
       series.push(newSeries)
     })
