@@ -1,5 +1,5 @@
 module.exports = {
-	title: 'Easycharts',
+	title: 'easyset',
 	description: 'easySet for Echarts',
 	head: [
 		['script', {

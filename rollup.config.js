@@ -5,7 +5,7 @@ import babel from "rollup-plugin-babel";
 export default {
   input: "src/index.js",
   output: {
-    file: "build/easycharts.min.js",
+    file: "build/easyset.min.js",
     format: "umd",
     name: "ec"
   },

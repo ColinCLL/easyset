@@ -4,20 +4,20 @@
 
 ### 安装
 
-easycharts 依赖于 echarts,使用前请确认是否正确引入 echarts
+easyset 依赖于 echarts,使用前请确认是否正确引入 echarts
 
 ```bash
 
-npm install easycharts --save
+npm install easyset --save
 
 #or
 
-yarn add easycharts
+yarn add easyset
 
 ```
 
 ```javascript
-<script src="./easycharts(.min).js" />
+<script src="./easyset(.min).js" />
 ```
 
 ### 第一个例子
@@ -48,7 +48,7 @@ first.setOption(firstOption);
 
 ## 数据规范
 
-在 easycharts 中，，所有的输入数据都是数组对象，并且都有一个特点，数组的每个数组项都对应图表的一个数据项，我们完全可以通过口头描述数组中的某项数据，知道它应该是在图表中应该对应表达什么。而且在数据项中，键值对的键不能作为图表中的值。
+在 easyset 中，，所有的输入数据都是数组对象，并且都有一个特点，数组的每个数组项都对应图表的一个数据项，我们完全可以通过口头描述数组中的某项数据，知道它应该是在图表中应该对应表达什么。而且在数据项中，键值对的键不能作为图表中的值。
 比如：
 
 ```js
@@ -73,7 +73,7 @@ data = [
 
 ### 快速简单的配置
 
-每一种图表都有自己的快捷配置方式，假如你能理解 easycharts 的数据规范，那么这个对你将毫无难度。
+每一种图表都有自己的快捷配置方式，假如你能理解 easyset 的数据规范，那么这个对你将毫无难度。
 
 ```js
 let easyData = [
@@ -106,7 +106,7 @@ easySetBar.setOption(easyBarOption);
 
 ### 便捷的 formatter
 
-easycharts 能够便捷的进行常用的格式化操作
+easyset 能够便捷的进行常用的格式化操作
 
 ```js
 let option = ec.barChart(data, {
@@ -170,12 +170,12 @@ ec.barOption({
 
 ### 特殊个例主题设置
 
-在使用图表的时候难免会有需要一些特殊的设置，所以easycharts的配置项可以作为类似echarts的拓展配置项来用。
+在使用图表的时候难免会有需要一些特殊的设置，所以easyset的配置项可以作为类似echarts的拓展配置项来用。
 
 
 ```js
 let chartOption = ec.barChart(firstData, {
-  // easycharts的设置项变成easySet作为easy的拓展配置项
+  // easyset的设置项变成easySet作为easy的拓展配置项
   easySet: {
     legend: "time",
     x: "name",
@@ -189,7 +189,7 @@ let chartOption = ec.barChart(firstData, {
   ...
 })
 
-// 因为easycharts本身生成的echarts的配置项，也可以在生成option后再修改
+// 因为easyset本身生成的echarts的配置项，也可以在生成option后再修改
 
 // echarts的title配置
 chartOption.title = {

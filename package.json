@@ -1,11 +1,11 @@
 {
-  "name": "easycharts",
-  "version": "0.0.0",
-  "description": "",
-  "main": "build/easycharts.min.js",
+  "name": "easyset",
+  "version": "1.0.0",
+  "description": "easy to create option of echarts",
+  "main": "build/easyset.min.js",
   "scripts": {
     "test": "istanbul cover ./node_modules/mocha/bin/_mocha",
-    "babel": "babel easycharts.js -o ./build/easycharts.js",
+    "babel": "babel easyset.js -o ./build/easyset.js",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
     "build": "rollup -c"

@@ -16,10 +16,10 @@ var rollup = require("rollup");
 
 
 gulp.task("js", function () {
-  return gulp.src("build/easycharts.js") // 指明源文件路径、并进行文件匹配
+  return gulp.src("build/easyset.js") // 指明源文件路径、并进行文件匹配
     .pipe(gulp.dest("./")) // 输出路径
     .pipe(uglify({})) // 使用uglify进行压缩
-    .pipe(rename("./build/easycharts.min.js"))
+    .pipe(rename("./build/easyset.min.js"))
     .pipe(sourcemaps.write())  //输出 .map 文件
     .pipe(gulp.dest("./")); // 输出路径
 });
@@ -43,7 +43,7 @@ gulp.task('build', function () {
   })
     .then(function (bundle) {
       bundle.write({
-        file: 'build/easycharts.js',
+        file: 'build/easyset.js',
         format: "umd",
         name: "ec",
       });
@@ -56,7 +56,7 @@ gulp.task("lint", function () {
   // Also, Be sure to return the stream from the task;
   // Otherwise, the task may end before the stream has finished.
   console.log("\n\n\nstart lint");
-  return gulp.src(["**/easyCharts.js", "!node_modules/**"])
+  return gulp.src(["**/easyset.js", "!node_modules/**"])
     // eslint() attaches the lint output to the "eslint" property
     // of the file object so it can be used by other modules.
     .pipe(eslint({
