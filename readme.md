@@ -1,9 +1,22 @@
 ## easycharts
 
-对echarts option的上层封装，让用户所见即所思所的图表工具。
+easycharts 主要为了快速、简易、更人性化的生成业务图表而创造的。它本身并不是一个渲染图表的引擎，而是依赖于 echarts，在内部通过数据运算和样式管理，帮助用户简单快速生成渲染 echarts 图表所需的 option。
+
+文档： http://easycharts.utilbar.com/
+
+快速开始
+
+```sh
+npm install easycharts --save
+
+#or
+
+yarn add easycharts
+```
+
+例子:
 
 ```js
-
 ec.lineChart(data, {
   x: "name",
   y: "value",
@@ -14,6 +27,5 @@ ec.lineChart(data, {
     yName: "(单位：day)",
     title: "图表名称"
   }
-})
-
+});
 ```
