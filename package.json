@@ -2,7 +2,7 @@
   "name": "easycharts",
   "version": "0.0.0",
   "description": "",
-  "main": "build/easycharts.js",
+  "main": "build/easycharts.min.js",
   "scripts": {
     "test": "istanbul cover ./node_modules/mocha/bin/_mocha",
     "babel": "babel easycharts.js -o ./build/easycharts.js",
