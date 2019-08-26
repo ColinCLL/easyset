@@ -1,6 +1,16 @@
 module.exports = {
 	title: 'Easycharts',
 	description: 'easySet for Echarts',
+	head: [
+		['script', {
+			async: true,
+			src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js',
+		}],
+		['script', {}, `(adsbygoogle = window.adsbygoogle || []).push({
+			google_ad_client: "ca-pub-2747362703566068",
+			enable_page_level_ads: true
+		});`]
+	],
 	themeConfig: {
 		nav: [
 			{ text: '文档', link: '/' },
