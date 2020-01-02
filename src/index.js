@@ -242,7 +242,7 @@ ec.lineChart = (data, option) => {
     legendData.push(key)
     newSeries.data = []
     jc.map(xAxisData, row => {
-      newSeries.data.push(index[row])
+      newSeries.data.push(index[row][easySet.y])
     })
     newSeries.name = key
 
