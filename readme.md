@@ -30,3 +30,6 @@ let option = ec.lineChart(data, {
   }
 });
 ```
+
+### license 
+MIT
