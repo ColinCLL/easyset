@@ -114,6 +114,43 @@ const getOption = (option, chartOpt) => {
   return config
 }
 
+/**
+ * 多legend图表补点的方法（按照name完全对齐两个数据组的key，缺失数据默认值为0）
+ * @param {array} data
+ * @param {number} defaultValue
+ */
+const aligningGroupPoints = (data, defaultValue = 0) => {
+  let keySets = new Set()
+  let result = {}
+  let groupData = {}
+  data.forEach(item => {
+    if (!groupData[item.name]) {
+      groupData[item.name] = []
+    }
+    groupData[item.name].push(item)
+  })
+  Object.values(groupData).forEach(list => {
+    list.forEach(item => {
+      keySets.add(item.key)
+    })
+  })
+  const keySetsList = [...keySets]
+  Object.keys(groupData).forEach(groupKey => {
+    let list = []
+    keySetsList.forEach(uniKey => {
+      const target = groupData[groupKey].find(item => item.key === uniKey)
+      if (target) {
+        list.push(target)
+      } else {
+        const { name = '', label = groupKey } = groupData[groupKey][0]
+        list.push({ name, label, key: uniKey, value: defaultValue })
+      }
+    })
+    result[groupKey] = list
+  })
+  return Object.values(result).reduce((prev, next) => prev.concat(next), [])
+}
+
 /******       图表        *********/
 
 // 柱状图
@@ -587,7 +624,9 @@ ec.ksChart = (data, option) => {
   let easySet = config.easySet
   let chartOption = config.chartOption
   let legendData = [], xAxisData = [], series = []
-
+  if (easySet.aligningPoint) {
+    data = aligningGroupPoints(data, 0)
+  }
   let legendGroup = jc.groupBy(data, easySet.legend)
   // 排序的数据
   let orderData = jc.sql({
